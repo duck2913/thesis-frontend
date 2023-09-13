@@ -2,6 +2,7 @@ import Navbar from "../../components/Navbar"
 import { MdOutlineNotifications } from "react-icons/md"
 import { AiOutlinePlus } from "react-icons/ai"
 import cover from "../../assets/Cover.png"
+import CartOverlay from "../../components/CartOverlay"
 
 const foods = [
 	{
@@ -87,6 +88,7 @@ const StudentHomePage = () => {
 				</div>
 				{/* end of main page */}
 			</div>
+			<CartOverlay />
 			<Navbar />
 		</>
 	)
