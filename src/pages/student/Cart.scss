@@ -1,0 +1,10 @@
+.payment-type {
+	padding: 1rem;
+	border-radius: 10px;
+	border: 1px solid #e1e1e1;
+
+	&.selected {
+		border-color: #7db665;
+		background-color: #e6fbdd;
+	}
+}

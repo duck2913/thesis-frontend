@@ -1,16 +1,22 @@
 import React, { useState } from "react"
+
 import { BiArrowBack } from "react-icons/bi"
 import { FaLocationDot } from "react-icons/fa6"
 import { useNavigate } from "react-router-dom"
 import { useCartStore } from "../../stores/cartStore"
 import { shallow } from "zustand/shallow"
+import cash from "../../assets/cash.png"
+import momo from "../../assets/momo.png"
+
 import CartItem from "../../components/Cart/CartItem"
+import "./Cart.scss"
 
 const Cart = () => {
 	const navigate = useNavigate()
 	const [useDelivery, setUseDelivery] = useState(false)
+	const [paymentType, setPaymentType] = useState("cash")
 
-	const { cart, addItemToCart, totalItems, totalPrice } = useCartStore(
+	const { cart, totalPrice } = useCartStore(
 		(state) => ({
 			cart: state.cart,
 			addItemToCart: state.addItemToCart,
@@ -19,7 +25,10 @@ const Cart = () => {
 		}),
 		shallow,
 	)
-	console.log("🚀 -> file: Cart.jsx:11 -> cart:", cart)
+
+	function handlePlaceOrder() {
+		navigate("/student")
+	}
 
 	return (
 		<>
@@ -49,9 +58,7 @@ const Cart = () => {
 					</div>
 				</div>
 
-				<div className="line w-full h-[1px] bg-gray-200 my-4">&nbsp;</div>
-
-				<div className="summary">
+				<div className="summary mt-6">
 					<p className="font-semibold">Order summary</p>
 					<div className="mt-2">
 						{Object.values(cart).map((item) => (
@@ -61,17 +68,49 @@ const Cart = () => {
 				</div>
 
 				<div className="line w-full h-[1.5px] bg-gray-200 my-4">&nbsp;</div>
-				<div className="px-2">
+				<div className="px-2 text-[0.8rem]">
 					<div className="flex justify-between items-center">
-						<p className="text-[0.8rem] font-semibold text-orange-600">Subtotal:</p>
+						<p>Subtotal:</p>
 						<p>{totalPrice},000₫</p>
 					</div>
 					{useDelivery && (
 						<div className="flex justify-between items-center mt-1">
-							<p className="text-[0.8rem] font-semibold text-orange-600">Shipping fee:</p>
+							<p>Shipping fee:</p>
 							<p>{10},000₫</p>
 						</div>
 					)}
+				</div>
+
+				<div className="payment mt-4">
+					<p className="font-semibold">Payment method</p>
+					<div
+						className={`payment-type mt-4 ${
+							paymentType === "cash" ? "selected" : ""
+						} flex items-center gap-4`}
+						onClick={() => setPaymentType("cash")}>
+						<img src={cash} alt="" className="w-[2rem] -mt-2" />
+						Pay by cash
+					</div>
+					<div
+						className={`payment-type mt-4 ${
+							paymentType === "momo" ? "selected" : ""
+						} flex items-center gap-4`}
+						onClick={() => setPaymentType("momo")}>
+						<img src={momo} alt="" className="w-[1.5rem]" />
+						Pay by Momo
+					</div>
+				</div>
+
+				<div className="my-8">
+					<div className="flex justify-between">
+						<p className="text-[0.9rem]">Your order</p>
+						<p className="font-bold">{totalPrice + (useDelivery ? 10 : 0)},000₫</p>
+					</div>
+					<button
+						className="bg-orange-200 text-orange-600 font-bold w-full mt-4 p-4 rounded-xl"
+						onClick={handlePlaceOrder}>
+						Place order
+					</button>
 				</div>
 			</div>
 		</>
