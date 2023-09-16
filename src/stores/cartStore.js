@@ -1,6 +1,6 @@
 import { create } from "zustand"
 
-export const useBearStore = create((set) => ({
+export const useCartStore = create((set) => ({
 	cart: {},
 	totalItems: 0,
 	totalPrice: 0,
@@ -19,6 +19,17 @@ export const useBearStore = create((set) => ({
 			state.totalItems++
 			state.totalPrice += +newItem.price
 
-			return { cart: state.cart }
+			return {}
+		}),
+
+	removeItemFromCart: (item) =>
+		set((state) => {
+			if (state.cart[item.name].quantity > 1) {
+				state.cart[item.name].quantity--
+			}
+			state.totalItems--
+			state.totalPrice -= +item.price
+
+			return {}
 		}),
 }))

@@ -1,15 +1,17 @@
 import "./Login.scss"
 import circles from "../../assets/login-circles.svg"
 import noodle from "../../assets/noodle.png"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 
 const Login = () => {
 	const [username, setUsername] = useState("")
 	const [password, setPassword] = useState("")
+	const navigate = useNavigate()
 
 	function handleLogin() {
 		console.log(username, password)
+		navigate("/student")
 	}
 
 	return (
@@ -34,7 +36,7 @@ const Login = () => {
 					onChange={(e) => setPassword(e.target.value)}
 				/>
 
-				<button className="block mt-[4rem] w-full" onClick={handleLogin}>
+				<button className="block mt-[4rem] w-full bg-black text-white rounded-lg p-2" onClick={handleLogin}>
 					Login
 				</button>
 				<p className="text-sm text-gray-400 mt-6 text-center">

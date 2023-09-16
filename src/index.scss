@@ -42,21 +42,7 @@ h1 {
 }
 
 button {
-	border-radius: 8px;
-	font-size: 1em;
-	font-weight: 500;
-	font-family: inherit;
-	background-color: #1a1a1a;
-	color: white;
-	cursor: pointer;
-	padding: 0.5rem 2rem;
-}
-button:hover {
-	border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-	outline: 4px auto -webkit-focus-ring-color;
+	display: inline;
 }
 
 @media (prefers-color-scheme: light) {
@@ -73,8 +59,9 @@ button:focus-visible {
 }
 
 .page {
-	padding: 1.5rem;
-	padding-bottom: 12rem;
+	padding-top: 1rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
 }
 
 .nav--item {

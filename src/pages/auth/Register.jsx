@@ -33,7 +33,7 @@ const Register = () => {
 					onChange={(e) => setPassword(e.target.value)}
 				/>
 
-				<button className="block mt-[4rem] w-full" onClick={handleRegister}>
+				<button className="block mt-[4rem] w-full bg-black text-white rounded-lg p-2" onClick={handleRegister}>
 					Register
 				</button>
 				<p className="text-sm text-gray-400 mt-6 text-center">

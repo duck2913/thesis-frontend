@@ -1,6 +1,7 @@
 import RootComponent from "./components/RootComponent"
 import Login from "./pages/auth/Login"
 import Register from "./pages/auth/Register"
+import Cart from "./pages/student/Cart"
 import StudentHomePage from "./pages/student/StudentHomePage"
 import { createBrowserRouter } from "react-router-dom"
 
@@ -19,6 +20,15 @@ export const router = createBrowserRouter([
 	},
 	{
 		path: "student",
-		element: <StudentHomePage />,
+		children: [
+			{
+				path: "",
+				element: <StudentHomePage />,
+			},
+			{
+				path: "cart",
+				element: <Cart />,
+			},
+		],
 	},
 ])

@@ -2,8 +2,9 @@ import Navbar from "../../components/Navbar"
 import { MdOutlineNotifications } from "react-icons/md"
 import { AiOutlinePlus } from "react-icons/ai"
 import cover from "../../assets/Cover.png"
-import CartOverlay from "../../components/CartOverlay"
-import { useBearStore } from "../../stores/cartStore"
+import CartOverlay from "../../components/Cart/CartOverlay"
+import { useCartStore } from "../../stores/cartStore"
+import { shallow } from "zustand/shallow"
 
 const foods = [
 	{
@@ -37,14 +38,18 @@ const drinks = [
 ]
 
 const StudentHomePage = () => {
-	const cart = useBearStore((state) => state.cart)
-	const addItemToCart = useBearStore((state) => state.addItemToCart)
-	const totalItems = useBearStore((state) => state.totalItems)
-	const totalPrice = useBearStore((state) => state.totalPrice)
+	const { addItemToCart, totalItems, totalPrice } = useCartStore(
+		(state) => ({
+			addItemToCart: state.addItemToCart,
+			totalItems: state.totalItems,
+			totalPrice: state.totalPrice,
+		}),
+		shallow,
+	)
 
 	return (
 		<>
-			<div className="page">
+			<div className="page pb-[12rem]">
 				<div className="header flex justify-between">
 					<div className="header--text">
 						<p className="text-gray-500">Good morning</p>
@@ -59,14 +64,14 @@ const StudentHomePage = () => {
 
 				<h2 className="text-lg font-semibold mt-4 ">Main Dishes</h2>
 				<div className="overflow-auto">
-					<div className="flex w-max gap-8 mt-2">
+					<div className="flex w-max gap-6 mt-2">
 						{foods.map((food) => (
 							<div className="food relative" key={food.imgUrl}>
 								<img src={food.imgUrl} alt="" className="w-[10rem] h-[12rem] object-cover rounded-lg" />
 								<div>{food.name}</div>
-								<div className="font-semibold text-orange-500">{food.price} 000₫</div>
+								<div className="font-semibold text-orange-500">{food.price},000₫</div>
 								<button
-									className="p-0 absolute bottom-[3.5rem] right-1 bg-green-600 w-8 h-8 rounded-full flex items-center justify-center"
+									className="p-0 absolute bottom-[3.5rem] right-1 bg-green-600 w-8 h-8 rounded-full flex items-center justify-center text-green-100"
 									onClick={() => addItemToCart(food)}>
 									<AiOutlinePlus />
 								</button>
@@ -77,7 +82,7 @@ const StudentHomePage = () => {
 
 				<h2 className="text-lg font-semibold mt-4 ">Drinks</h2>
 				<div className="overflow-auto">
-					<div className="flex w-max gap-8 mt-2">
+					<div className="flex w-max gap-6 mt-2">
 						{drinks.map((drink) => (
 							<div className="drink relative" key={drink.imgUrl}>
 								<img
@@ -86,9 +91,9 @@ const StudentHomePage = () => {
 									className="w-[10rem] h-[12rem] object-cover rounded-lg"
 								/>
 								<div>{drink.name}</div>
-								<div className="font-semibold text-orange-500">{drink.price} 000₫</div>
+								<div className="font-semibold text-orange-500">{drink.price},000₫</div>
 								<button
-									className="p-0 absolute bottom-[3.5rem] right-1 bg-green-600 w-8 h-8 rounded-full flex items-center justify-center"
+									className="p-0 absolute bottom-[3.5rem] right-1 bg-green-600 w-8 h-8 rounded-full flex items-center justify-center text-green-100"
 									onClick={() => addItemToCart(drink)}>
 									<AiOutlinePlus />
 								</button>
