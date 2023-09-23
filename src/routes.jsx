@@ -2,6 +2,8 @@ import RootComponent from "./components/RootComponent"
 import Login from "./pages/auth/Login"
 import Register from "./pages/auth/Register"
 import Cart from "./pages/student/Cart"
+import MyOrder from "./pages/student/MyOrder"
+import Shipper from "./pages/student/Shipper"
 import StudentHomePage from "./pages/student/StudentHomePage"
 import { createBrowserRouter } from "react-router-dom"
 
@@ -28,6 +30,14 @@ export const router = createBrowserRouter([
 			{
 				path: "cart",
 				element: <Cart />,
+			},
+			{
+				path: "orders",
+				element: <MyOrder />,
+			},
+			{
+				path: "shipper",
+				element: <Shipper />,
 			},
 		],
 	},
