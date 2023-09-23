@@ -6,6 +6,7 @@ import MyOrder from "./pages/student/MyOrder"
 import Shipper from "./pages/student/Shipper"
 import StudentHomePage from "./pages/student/StudentHomePage"
 import { createBrowserRouter } from "react-router-dom"
+import Notification from "./pages/student/Notification.jsx";
 
 export const router = createBrowserRouter([
 	{
@@ -38,6 +39,9 @@ export const router = createBrowserRouter([
 			{
 				path: "shipper",
 				element: <Shipper />,
+			},{
+				path: "notification",
+				element: <Notification />,
 			},
 		],
 	},
