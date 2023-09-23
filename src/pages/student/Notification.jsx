@@ -7,7 +7,7 @@ import { shallow } from "zustand/shallow"
 
 const Notification = () => {
 	const navigate = useNavigate()
-	const { notifications, addNotification, removeNotification } = useNotificationStore(
+	const { notifications, removeNotification } = useNotificationStore(
 		(store) => ({
 			addNotification: store.addNotification,
 			notifications: store.notificationList,
@@ -32,7 +32,6 @@ const Notification = () => {
 						{notification.message}
 
 						<div
-							className={""}
 							onClick={() => {
 								removeNotification(notification.id)
 							}}>
