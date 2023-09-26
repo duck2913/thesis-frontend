@@ -5,64 +5,69 @@
 @tailwind utilities;
 
 :root {
-  font-family: "Poppins", system-ui, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+	font-family: "Poppins", system-ui, Helvetica, Arial, sans-serif;
+	line-height: 1.5;
+	font-weight: 400;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-text-size-adjust: 100%;
 }
 
 input:focus {
-  outline: none;
-  border: none;
+	outline: none;
+	border: none;
 }
 
 a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+	font-weight: 500;
+	color: #646cff;
+	text-decoration: inherit;
 }
 
 a:hover {
-  color: #535bf2;
+	color: #535bf2;
 }
 
 body {
-  margin: 0;
+	margin: 0;
 
-  min-width: 320px;
-  min-height: 100vh;
+	min-width: 320px;
+	min-height: 100vh;
 }
 
 h1 {
-  font-size: 1.5rem;
-  line-height: 1.1;
+	font-size: 1.5rem;
+	line-height: 1.1;
 }
 
 @media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+	:root {
+		color: #213547;
+		background-color: #ffffff;
+	}
+	a:hover {
+		color: #747bff;
+	}
+	button {
+		background-color: #f9f9f9;
+	}
 }
 
 .page {
-  padding-top: 2rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+	padding-top: 2rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
 }
 
 .nav--item {
-  p {
-    color: #a2a2a2;
-  }
+	p {
+		color: #a2a2a2;
+	}
+}
+
+.bg-gradient {
+	background-image: linear-gradient(45deg, #7edf8e, #e3ad6b);
+	color: white;
 }
