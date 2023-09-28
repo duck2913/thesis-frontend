@@ -8,6 +8,8 @@ import StudentHomePage from "./pages/student/StudentHomePage"
 import { createBrowserRouter } from "react-router-dom"
 import Notification from "./pages/student/Notification.jsx"
 import VendorHomePage from "./pages/vendor/VendorhomePage"
+import VendorOrders from "./pages/vendor/VendorOrders"
+import AddNewDish from "./pages/vendor/AddNewDish"
 
 export const router = createBrowserRouter([
 	{
@@ -49,6 +51,19 @@ export const router = createBrowserRouter([
 	},
 	{
 		path: "vendor",
-		element: <VendorHomePage />,
+		children: [
+			{
+				path: "",
+				element: <VendorHomePage />,
+			},
+			{
+				path: "orders",
+				element: <VendorOrders />,
+			},
+			{
+				path: "new-dish",
+				element: <AddNewDish />,
+			},
+		],
 	},
 ])

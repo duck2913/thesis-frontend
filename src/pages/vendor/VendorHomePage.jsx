@@ -1,6 +1,5 @@
-import { MdOutlineNotifications } from "react-icons/md"
+import { BsCart4 } from "react-icons/bs"
 import cover from "../../assets/Cover2.png"
-import CartOverlay from "../../components/Cart/CartOverlay"
 import { Link } from "react-router-dom"
 import { BsFillTrashFill } from "react-icons/bs"
 
@@ -47,14 +46,16 @@ const VendorHomePage = () => {
 						<p className="font-semibold">Staff</p>
 					</div>
 					<Link
-						to={"/student/notification"}
+						to={"/vendor/orders"}
 						className="border border-black rounded-full w-10 h-10 flex items-center justify-center text-black relative">
-						<MdOutlineNotifications className="text-[1.5rem]" />
+						<BsCart4 className="text-[1.5rem]" />
 					</Link>
 				</div>
 				<img src={cover} alt="" className="rounded-lg mt-4 " />
 
-				<button className="w-full mt-6 bg-gradient p-2 rounded-md font-bold">Add new dish</button>
+				<Link to={"/vendor/new-dish"}>
+					<button className="w-full mt-6 bg-gradient p-2 rounded-md font-bold">Add new dish</button>
+				</Link>
 
 				<h2 className="text-lg font-semibold mt-4 ">Main Dishes</h2>
 				<div className="overflow-auto">
