@@ -69,7 +69,7 @@ const AddNewDish = () => {
 					</div>
 				</div>
 			</div>
-			<button className="w-full mt-12 bg-gradient p-2 rounded-md font-bold" onClick={handleAddNewDish}>
+			<button className="w-full mt-12 bg-gradient p-2 py-4 rounded-md font-bold" onClick={handleAddNewDish}>
 				Add new dish
 			</button>
 		</div>

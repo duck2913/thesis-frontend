@@ -1,7 +1,160 @@
-import React from "react"
+import React, { useState } from "react"
+import { BiArrowBack } from "react-icons/bi"
+import { useNavigate } from "react-router-dom"
+import "./VendorOrders.scss"
+
+const initialOrders = [
+	{
+		id: 1,
+		items: [
+			{
+				name: "bún bò",
+				quantity: 1,
+			},
+		],
+		status: "new",
+	},
+	{
+		id: 2,
+		items: [
+			{
+				name: "bún bò",
+				quantity: 1,
+			},
+			{
+				name: "trà đá",
+				quantity: 1,
+			},
+		],
+		status: "new",
+	},
+	{
+		id: 3,
+		items: [
+			{
+				name: "pho",
+				quantity: 1,
+			},
+		],
+		status: "new",
+	},
+	{
+		id: 4,
+		items: [
+			{
+				name: "bún bò",
+				quantity: 1,
+			},
+			{
+				name: "trà đá",
+				quantity: 1,
+			},
+			{
+				name: "trà đá",
+				quantity: 1,
+			},
+			{
+				name: "trà đá",
+				quantity: 1,
+			},
+		],
+		status: "new",
+	},
+]
 
 const VendorOrders = () => {
-	return <div>VendorOrders</div>
+	const navigate = useNavigate()
+	const [type, setType] = useState("unprocessed")
+	const [orders, setOrders] = useState(initialOrders)
+
+	const unprocessedOrders = orders.filter((order) => order.status === "new")
+	const processedOrders = orders.filter((order) => order.status !== "new")
+
+	function handleSelectType(s) {
+		setType(s)
+	}
+
+	function handleProcessOrder(id) {
+		const updatedOrders = [...orders]
+
+		const clickedOrder = updatedOrders.find((order) => order.id === id)
+		switch (clickedOrder.status) {
+			case "new":
+				clickedOrder.status = "processing"
+				break
+			case "processing":
+				clickedOrder.status = "done"
+				break
+			default:
+				break
+		}
+		if (clickedOrder.status === "new") {
+		}
+
+		setOrders(updatedOrders)
+	}
+
+	return (
+		<div className={"page"}>
+			<div className={"flex gap-8"}>
+				<BiArrowBack className="text-[1.5rem]" onClick={() => navigate(-1)} />
+				<h2>Your orders</h2>
+			</div>
+			<div className={"mt-[2rem]"} />
+			<div className="flex bg-gray-100 p-2 rounded-2xl text-gray-400">
+				<div
+					className={`selection flex-1 text-center ${type === "unprocessed" ? "active" : ""}`}
+					onClick={() => handleSelectType("unprocessed")}>
+					Unprocessed
+				</div>
+				<div
+					className={`selection flex-1 text-center ${type === "processed" ? "active" : ""}`}
+					onClick={() => handleSelectType("processed")}>
+					Processed
+				</div>
+			</div>
+			<div className="mt-[3rem] flex flex-col gap-12 w-[90%] mx-auto">
+				{type === "unprocessed" &&
+					unprocessedOrders.map((order) => (
+						<div key={Math.random()} className="flex gap-8 justify-between">
+							<div className="item-list">
+								{order.items.map((item) => (
+									<div className="" key={Math.random()}>
+										{item.name} <span className="text-sm text-gray-500">x{item.quantity}</span>
+									</div>
+								))}
+							</div>
+							<div className="text-center">
+								<p
+									className={`order-status rounded-md inline-block px-2 ${order.status} active:scale-90 transition-all`}
+									onClick={() => handleProcessOrder(order.id)}>
+									process
+								</p>
+							</div>
+						</div>
+					))}
+				{type === "processed" &&
+					processedOrders.map((order) => (
+						<div key={Math.random()} className="flex gap-8 justify-between">
+							<div className="item-list">
+								{order.items.map((item) => (
+									<div className="" key={Math.random()}>
+										{item.name} <span className="text-sm text-gray-500">x{item.quantity}</span>
+									</div>
+								))}
+							</div>
+							<div className="text-center">
+								<p
+									className={`order-status rounded-md inline-block px-2 ${order.status} active:scale-90 transition-all`}
+									onClick={() => handleProcessOrder(order.id)}>
+									{order.status === "processing" ? "processing" : "done"}
+								</p>
+							</div>
+						</div>
+					))}
+			</div>
+		</div>
+	)
 }
 
 export default VendorOrders
