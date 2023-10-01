@@ -80,9 +80,9 @@ const VendorOrders = () => {
 		const clickedOrder = updatedOrders.find((order) => order.id === id)
 		switch (clickedOrder.status) {
 			case "new":
-				clickedOrder.status = "processing"
+				clickedOrder.status = "cooking"
 				break
-			case "processing":
+			case "cooking":
 				clickedOrder.status = "done"
 				break
 			default:
@@ -110,13 +110,17 @@ const VendorOrders = () => {
 				<div
 					className={`selection flex-1 text-center ${type === "processed" ? "active" : ""}`}
 					onClick={() => handleSelectType("processed")}>
-					Processed
+					Cooking
 				</div>
 			</div>
-			<div className="mt-[3rem] flex flex-col gap-12 w-[90%] mx-auto">
+			<div className="mt-[3rem] flex flex-col w-[90%] gap-4 mx-auto">
 				{type === "unprocessed" &&
 					unprocessedOrders.map((order) => (
-						<div key={Math.random()} className="flex gap-8 justify-between">
+						<div key={Math.random()} className="flex gap-8 justify-between bg-[#fff9f7] p-4 rounded-lg">
+							<div>
+								<p className="text-orange-300">ID</p>
+								<p className="text-orange-300 font-[500]">{order.id}</p>
+							</div>
 							<div className="item-list">
 								{order.items.map((item) => (
 									<div className="" key={Math.random()}>
@@ -135,7 +139,11 @@ const VendorOrders = () => {
 					))}
 				{type === "processed" &&
 					processedOrders.map((order) => (
-						<div key={Math.random()} className="flex gap-8 justify-between">
+						<div key={Math.random()} className="flex gap-8 justify-between p-4 rounded-lg bg-[#f7f7ff] ">
+							<div className="text-center">
+								<p className="text-blue-300">ID</p>
+								<p className="text-blue-300 font-[500]">{order.id}</p>
+							</div>
 							<div className="item-list">
 								{order.items.map((item) => (
 									<div className="" key={Math.random()}>
@@ -147,7 +155,7 @@ const VendorOrders = () => {
 								<p
 									className={`order-status rounded-md inline-block px-2 ${order.status} active:scale-90 transition-all`}
 									onClick={() => handleProcessOrder(order.id)}>
-									{order.status === "processing" ? "processing" : "done"}
+									{order.status === "cooking" ? "cooking" : "done"}
 								</p>
 							</div>
 						</div>

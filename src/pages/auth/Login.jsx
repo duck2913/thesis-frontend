@@ -11,6 +11,10 @@ const Login = () => {
 
 	function handleLogin() {
 		console.log(username, password)
+		if (username === "vendor" && password === "123") {
+			navigate("/vendor")
+			return
+		}
 		navigate("/student")
 	}
 
