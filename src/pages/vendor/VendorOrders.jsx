@@ -65,33 +65,37 @@ const initialOrders = [
 const VendorOrders = () => {
 	const navigate = useNavigate()
 	const [type, setType] = useState("unprocessed")
-	const [orders, setOrders] = useState(initialOrders)
-
-	const unprocessedOrders = orders.filter((order) => order.status === "new")
-	const processedOrders = orders.filter((order) => order.status !== "new")
+	const [unprocessedOrders, setUnprocessedOrders] = useState(initialOrders)
+	const [processedOrders, setProcessedOrders] = useState([])
 
 	function handleSelectType(s) {
 		setType(s)
 	}
 
 	function handleProcessOrder(id) {
-		const updatedOrders = [...orders]
+		if (type === "unprocessed") {
+			const selectedOrder = unprocessedOrders.find((order) => order.id === id)
+			selectedOrder.status = "cooking"
+			setProcessedOrders((curr) => [...curr, selectedOrder])
 
-		const clickedOrder = updatedOrders.find((order) => order.id === id)
-		switch (clickedOrder.status) {
-			case "new":
-				clickedOrder.status = "cooking"
-				break
+			const updatedList = unprocessedOrders.filter((order) => order.id !== id)
+			setUnprocessedOrders(updatedList)
+			return
+		}
+
+		let updatedList = [...processedOrders]
+		const selectedOrder = updatedList.find((order) => order.id === id)
+
+		switch (selectedOrder.status) {
 			case "cooking":
-				clickedOrder.status = "done"
+				selectedOrder.status = "done"
 				break
-			default:
-				break
-		}
-		if (clickedOrder.status === "new") {
-		}
 
-		setOrders(updatedOrders)
+			default:
+				updatedList = updatedList.filter((order) => order.id !== selectedOrder.id)
+				break
+		}
+		setProcessedOrders(updatedList)
 	}
 
 	return (
