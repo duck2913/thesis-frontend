@@ -1,14 +1,26 @@
 import React, { useState } from "react"
 import chicken from "../../assets/chicken.png"
 import circles from "../../assets/register-circles.svg"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 const Register = () => {
 	const [username, setUsername] = useState("")
 	const [password, setPassword] = useState("")
+	const navigate = useNavigate()
 
-	function handleRegister() {
-		console.log(username, password)
+	async function handleRegister() {
+		const res = await fetch("http://localhost:8080/api/v1/auth/register", {
+			method: "POST",
+			body: JSON.stringify({ username, password }),
+			headers: {
+				"Content-type": "application/json; charset=UTF-8",
+			},
+		})
+		if (res.ok) {
+			navigate("/login")
+		} else {
+			console.error("Error when register")
+		}
 	}
 
 	return (

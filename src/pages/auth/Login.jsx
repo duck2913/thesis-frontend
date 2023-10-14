@@ -3,19 +3,35 @@ import circles from "../../assets/login-circles.svg"
 import noodle from "../../assets/noodle.png"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
+import jwt_decode from "jwt-decode"
+
+const SECRET_KEY = "c2bce70976fbc8cd488d84a89eba1de4b8e4255b8de7aed4485517f379de8f66"
 
 const Login = () => {
 	const [username, setUsername] = useState("")
 	const [password, setPassword] = useState("")
 	const navigate = useNavigate()
 
-	function handleLogin() {
-		console.log(username, password)
-		if (username === "vendor" && password === "123") {
-			navigate("/vendor")
+	async function handleLogin() {
+		const res = await fetch("http://localhost:8080/api/v1/auth/login", {
+			method: "POST",
+			body: JSON.stringify({ username, password }),
+			headers: {
+				"Content-type": "application/json; charset=UTF-8",
+			},
+		})
+
+		const { token } = await res.json()
+		if (!token) {
+			console.error("Token is invalid")
 			return
 		}
-		navigate("/student")
+		const { user } = jwt_decode(token)
+		if (user.role === "USER") {
+			navigate("/student")
+		} else {
+			navigate("/vendor")
+		}
 	}
 
 	return (
