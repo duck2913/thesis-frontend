@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react"
 import { BiArrowBack } from "react-icons/bi"
 import { useNavigate } from "react-router-dom"
+import { toast, ToastContainer } from "react-toastify"
 
 const AddNewDish = () => {
 	const navigate = useNavigate()
@@ -15,7 +16,10 @@ const AddNewDish = () => {
 		const price = priceRef.current.value
 		const category = categoryRef.current.value
 
-		if (!name || !price || !selectedImg) return
+		if (!name || !price || !selectedImg) {
+			toast.error("Please fill in all the fields")
+			return
+		}
 
 		const formData = new FormData()
 		formData.append("name", name)
@@ -23,23 +27,32 @@ const AddNewDish = () => {
 		formData.append("category", category)
 		formData.append("image", selectedImg)
 
-		fetch("/upload", {
+		const res = await fetch("http://localhost:8081", {
 			method: "POST",
 			body: formData,
 		})
-			.then((response) => response.json())
-			.then((data) => {
-				// Handle the response from the server
-				console.log(data)
-			})
-			.catch((error) => {
-				// Handle errors
-				console.error(error)
-			})
+		console.log(res)
+		if (!res.ok) {
+			toast.error("Cannot create a new dish")
+		}
+		const data = await res.text()
+		console.log(data)
 	}
 
 	return (
 		<div className="page">
+			<ToastContainer
+				position="top-right"
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="dark"
+			/>
 			<div className="cart--header flex items-center justify-between">
 				<BiArrowBack className="text-[1.5rem]" onClick={() => navigate(-1)} />
 				<p className="text-[1.2rem]">Add new dish</p>
@@ -71,8 +84,8 @@ const AddNewDish = () => {
 						className="border border-gray-300 block w-full rounded-md focus:border-blue-400 focus:border p-2"
 						placeholder="Ex: Food"
 						ref={categoryRef}>
-						<option value="food">Food</option>
-						<option value="drink">Drink</option>
+						<option value="FOOD">Food</option>
+						<option value="DRINK">Drink</option>
 					</select>
 				</div>
 				<div className="mt-8">
