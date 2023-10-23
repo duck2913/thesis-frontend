@@ -5,36 +5,6 @@ import { BsFillTrashFill } from "react-icons/bs"
 import { useEffect, useState } from "react"
 
 const BACKEND_SERVER = "http://localhost:8081/"
-const foods = [
-	{
-		imgUrl: "https://fullofplants.com/wp-content/uploads/2019/07/vegan-bun-bo-hue-vietnamese-vegetarian-spicy-soup-chay-thumb.jpg",
-		price: "30",
-		name: "bún bò huế",
-	},
-	{
-		imgUrl: "https://www.recipetineats.com/wp-content/uploads/2019/04/Beef-Pho_6.jpg",
-		price: "30",
-		name: "phở",
-	},
-	{
-		imgUrl: "https://www.authenticfoodquest.com/wp-content/uploads/2021/01/VietnameseBrokenRicePorkChopRecipe_ComTam_AuthenticFoodQuest.jpeg.webp",
-		price: "25",
-		name: "cơm tấm",
-	},
-]
-
-const drinks = [
-	{
-		imgUrl: "https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2019/7/25/746291/Tra-Da.jpg",
-		price: "5",
-		name: "trà đá",
-	},
-	{
-		imgUrl: "https://product.hstatic.net/1000126467/product/06323318_c821194305af4d9db5a96c059b3b477d_42a1e2318ff24e048560a4cfb2b35dd2_grande.jpg",
-		price: "10",
-		name: "nutri",
-	},
-]
 
 const VendorHomePage = () => {
 	const [dishes, setDishes] = useState([])
@@ -46,14 +16,14 @@ const VendorHomePage = () => {
 	}, [])
 
 	async function getData() {
-		const res = await fetch("http://localhost:8081")
+		const res = await fetch(`${BACKEND_SERVER}`)
 		const data = await res.json()
 		console.log(data)
 		setDishes(data)
 	}
 
 	async function deleteDish(dishId) {
-		const res = await fetch(`http://localhost:8081/delete/${dishId}`, {
+		const res = await fetch(`${BACKEND_SERVER}delete/${dishId}`, {
 			method: "DELETE",
 		})
 		if (!res.ok) return
