@@ -2,7 +2,9 @@ import { BsCart4 } from "react-icons/bs"
 import cover from "../../assets/Cover2.png"
 import { Link } from "react-router-dom"
 import { BsFillTrashFill } from "react-icons/bs"
+import { useEffect, useState } from "react"
 
+const BACKEND_SERVER = "http://localhost:8081/"
 const foods = [
 	{
 		imgUrl: "https://fullofplants.com/wp-content/uploads/2019/07/vegan-bun-bo-hue-vietnamese-vegetarian-spicy-soup-chay-thumb.jpg",
@@ -35,7 +37,35 @@ const drinks = [
 ]
 
 const VendorHomePage = () => {
-	function removeItemFromMenu(item) {}
+	const [dishes, setDishes] = useState([])
+	const foods = dishes.filter((dish) => dish.category == "FOOD")
+	const drinks = dishes.filter((dish) => dish.category == "DRINK")
+
+	useEffect(() => {
+		getData()
+	}, [])
+
+	async function getData() {
+		const res = await fetch("http://localhost:8081")
+		const data = await res.json()
+		console.log(data)
+		setDishes(data)
+	}
+
+	async function deleteDish(dishId) {
+		const res = await fetch(`http://localhost:8081/delete/${dishId}`, {
+			method: "DELETE",
+		})
+		if (!res.ok) return
+		const data = await res.text()
+		console.log("🚀 -> file: VendorHomePage.jsx:60 -> data:", data)
+		setDishes((curr) => curr.filter((dish) => dish.id !== dishId))
+	}
+
+	function removeItemFromMenu(item) {
+		deleteDish(item.id)
+		console.log(item)
+	}
 
 	return (
 		<>
@@ -62,7 +92,11 @@ const VendorHomePage = () => {
 					<div className="flex w-max gap-6 mt-2">
 						{foods.map((food) => (
 							<div className="food relative" key={food.imgUrl}>
-								<img src={food.imgUrl} alt="" className="w-[10rem] h-[12rem] object-cover rounded-lg" />
+								<img
+									src={`${BACKEND_SERVER}${food.imgUrl}`}
+									alt=""
+									className="w-[10rem] h-[12rem] object-cover rounded-lg"
+								/>
 								<div>{food.name}</div>
 								<div className="font-semibold text-orange-500">{food.price},000₫</div>
 								<button
@@ -81,7 +115,7 @@ const VendorHomePage = () => {
 						{drinks.map((drink) => (
 							<div className="drink relative" key={drink.imgUrl}>
 								<img
-									src={drink.imgUrl}
+									src={`${BACKEND_SERVER}${drink.imgUrl}`}
 									alt=""
 									className="w-[10rem] h-[12rem] object-cover rounded-lg"
 								/>

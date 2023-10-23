@@ -16,7 +16,7 @@ const AddNewDish = () => {
 		const price = priceRef.current.value
 		const category = categoryRef.current.value
 
-		if (!name || !price || !selectedImg) {
+		if (!name || !price || !category || !selectedImg) {
 			toast.error("Please fill in all the fields")
 			return
 		}
@@ -34,9 +34,18 @@ const AddNewDish = () => {
 		console.log(res)
 		if (!res.ok) {
 			toast.error("Cannot create a new dish")
+			return
 		}
 		const data = await res.text()
 		console.log(data)
+
+		// reset
+		nameRef.current.value = ""
+		priceRef.current.value = ""
+		categoryRef.current.value = ""
+		setSelectedImg(null)
+
+		toast("Add new dish successfully")
 	}
 
 	return (
@@ -73,7 +82,7 @@ const AddNewDish = () => {
 					<input
 						type="text"
 						className="border border-gray-300 block w-full rounded-md focus:border-blue-400 focus:border p-2"
-						placeholder="Ex: 30000"
+						placeholder="Ex: 30"
 						ref={priceRef}
 					/>
 				</div>
