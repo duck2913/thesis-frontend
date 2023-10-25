@@ -23,7 +23,6 @@ const StudentHomePage = () => {
 	async function getData() {
 		const res = await fetch("http://localhost:8081")
 		const data = await res.json()
-		console.log(data)
 		setDishes(data)
 	}
 

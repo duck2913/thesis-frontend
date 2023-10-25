@@ -41,6 +41,7 @@ const Login = () => {
 		} else {
 			navigate("/vendor")
 		}
+		localStorage.setItem("user_info", JSON.stringify(user))
 	}
 
 	return (

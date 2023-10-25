@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import chicken from "../../assets/chicken.png"
 import circles from "../../assets/register-circles.svg"
 import { Link, useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
 
 const Register = () => {
 	const [username, setUsername] = useState("")
@@ -18,10 +19,10 @@ const Register = () => {
 				"Content-type": "application/json; charset=UTF-8",
 			},
 		})
-		if (res.ok) {
-			navigate("/login")
+		if (!res.ok) {
+			console.error("Error when register, maybe username already exists")
 		} else {
-			console.error("Error when register")
+			navigate("/login")
 		}
 	}
 

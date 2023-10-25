@@ -1,6 +1,8 @@
 import React from "react"
 import { useCartStore } from "../../stores/cartStore"
 
+const IMG_SERVER = "http://localhost:8081/"
+
 const CartItem = ({ item }) => {
 	const { cart, addItemToCart, removeItemFromCart } = useCartStore((store) => ({
 		cart: store.cart,
@@ -19,7 +21,7 @@ const CartItem = ({ item }) => {
 
 	return (
 		<div className="mb-8 flex gap-8 justify-between">
-			<img src={item.imgUrl} alt="" className="w-[3rem] h-[3rem] rounded-lg" />
+			<img src={`${IMG_SERVER}${item.imgUrl}`} alt="" className="w-[3rem] h-[3rem] rounded-lg" />
 			<div>
 				<p className="font-semibold">{item.name}</p>
 				<p className="text-[0.8rem]">{item.price * item.quantity},000₫</p>

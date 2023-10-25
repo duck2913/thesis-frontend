@@ -27,6 +27,7 @@ const Cart = () => {
 	)
 
 	function handlePlaceOrder() {
+		console.log(cart)
 		navigate("/student")
 	}
 
