@@ -5,6 +5,8 @@ import { FaLocationDot } from "react-icons/fa6"
 import { useNavigate } from "react-router-dom"
 import { useCartStore } from "../../stores/cartStore"
 import { shallow } from "zustand/shallow"
+import { toast } from "react-toastify"
+
 import cash from "../../assets/cash.png"
 import momo from "../../assets/momo.png"
 
@@ -26,9 +28,38 @@ const Cart = () => {
 		shallow,
 	)
 
-	function handlePlaceOrder() {
+	async function handlePlaceOrder() {
 		console.log(cart)
+		const data = transformDataForApiRequest()
+		console.log("🚀 -> file: Cart.jsx:34 -> data:", data)
+
+		const res = await fetch("http://localhost:8082", {
+			method: "POST",
+			body: JSON.stringify(data),
+			headers: {
+				"Content-Type": "application/json",
+			},
+		})
+		if (!res.ok) {
+			toast("error when creating order")
+			return
+		}
 		navigate("/student")
+	}
+
+	function transformDataForApiRequest() {
+		const result = {}
+		const dishes = Object.values(cart).map((dish) => ({
+			dishId: dish.id,
+			quantity: dish.quantity,
+		}))
+		const userId = JSON.parse(localStorage.getItem("user_info")).id
+
+		return {
+			userId,
+			dishes,
+			imageUrl: Object.values(cart)[0].imageUrl,
+		}
 	}
 
 	return (
