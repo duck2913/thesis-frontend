@@ -48,17 +48,17 @@ const Cart = () => {
 	}
 
 	function transformDataForApiRequest() {
-		const result = {}
-		const dishes = Object.values(cart).map((dish) => ({
-			dishId: dish.id,
+		const orderItems = Object.values(cart).map((dish) => ({
+			dishName: dish.name,
 			quantity: dish.quantity,
 		}))
 		const userId = JSON.parse(localStorage.getItem("user_info")).id
 
 		return {
 			userId,
-			dishes,
-			imageUrl: Object.values(cart)[0].imageUrl,
+			orderItems,
+			imageUrl: Object.values(cart)[0].imgUrl,
+			totalPrice,
 		}
 	}
 
