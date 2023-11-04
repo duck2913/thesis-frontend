@@ -93,7 +93,7 @@ const MyOrder = () => {
 					{orders.map((order) => (
 						<div key={Math.random()} className="p-2 py-4 rounded-lg border-b">
 							<div className="flex gap-8 ">
-								<img src={`${IMG_SERVER}${order.imageUrl}`} alt="" className="w-12 h-12" />
+								<img src={`${IMG_SERVER}${order.imageUrl}`} alt="" className="w-12 h-12 rounded-lg" />
 								<div className="item-list">
 									{order?.orderItems?.map((item) => (
 										<div className="" key={Math.random()}>

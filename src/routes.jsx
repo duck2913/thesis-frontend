@@ -7,9 +7,10 @@ import Shipper from "./pages/student/Shipper"
 import StudentHomePage from "./pages/student/StudentHomePage"
 import { createBrowserRouter } from "react-router-dom"
 import Notification from "./pages/student/Notification.jsx"
-import VendorHomePage from "./pages/vendor/VendorhomePage"
-import VendorOrders from "./pages/vendor/VendorOrders"
+import VendorHomePage from "./pages/vendor/VendorHomePage.jsx"
+import VendorActiveOrders from "./pages/vendor/VendorActiveOrders.jsx"
 import AddNewDish from "./pages/vendor/AddNewDish"
+import VendorAllOrders from "./pages/vendor/VendorAllOrders.jsx"
 
 export const router = createBrowserRouter([
 	{
@@ -57,8 +58,12 @@ export const router = createBrowserRouter([
 				element: <VendorHomePage />,
 			},
 			{
-				path: "orders",
-				element: <VendorOrders />,
+				path: "active-orders",
+				element: <VendorActiveOrders />,
+			},
+			{
+				path: "all-orders",
+				element: <VendorAllOrders />,
 			},
 			{
 				path: "new-dish",

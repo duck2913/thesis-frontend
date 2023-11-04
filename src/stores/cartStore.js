@@ -5,6 +5,8 @@ export const useCartStore = create((set) => ({
 	totalItems: 0,
 	totalPrice: 0,
 
+	resetStore: () => set({ cart: {}, totalItems: 0, totalPrice: 0 }),
+
 	addItemToCart: (newItem) =>
 		set((state) => {
 			if (state.cart[newItem.name]) {

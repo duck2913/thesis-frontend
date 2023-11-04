@@ -1,7 +1,9 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { BiArrowBack } from "react-icons/bi"
 import { useNavigate } from "react-router-dom"
 import "./VendorOrders.scss"
+
+const IMG_SERVER = "http://localhost:8081/"
 
 const initialOrders = [
 	{
@@ -62,11 +64,21 @@ const initialOrders = [
 	},
 ]
 
-const VendorOrders = () => {
+const VendorActiveOrders = () => {
 	const navigate = useNavigate()
 	const [type, setType] = useState("unprocessed")
 	const [unprocessedOrders, setUnprocessedOrders] = useState(initialOrders)
 	const [processedOrders, setProcessedOrders] = useState([])
+
+	useEffect(() => {
+		fetch("http://localhost:8082/active")
+			.then((res) => res.json())
+			.then((data) => {
+				console.log(data)
+				setUnprocessedOrders(data)
+			})
+			.catch((error) => console.error(error))
+	}, [])
 
 	function handleSelectType(s) {
 		setType(s)
@@ -99,10 +111,10 @@ const VendorOrders = () => {
 	}
 
 	return (
-		<div className={"page"}>
+		<div className="page">
 			<div className={"flex gap-8"}>
 				<BiArrowBack className="text-[1.5rem]" onClick={() => navigate(-1)} />
-				<h2>Your orders</h2>
+				<h2>Active orders</h2>
 			</div>
 			<div className={"mt-[2rem]"} />
 			<div className="flex bg-gray-100 p-2 rounded-2xl text-gray-400">
@@ -121,20 +133,17 @@ const VendorOrders = () => {
 				{type === "unprocessed" &&
 					unprocessedOrders.map((order) => (
 						<div key={Math.random()} className="flex gap-8 justify-between bg-[#fff9f7] p-4 rounded-lg">
-							<div>
-								<p className="text-orange-300">ID</p>
-								<p className="text-orange-300 font-[500]">{order.id}</p>
-							</div>
+							<img src={`${IMG_SERVER}${order.imageUrl}`} alt="" className="w-12 h-12 rounded-lg" />
 							<div className="item-list">
-								{order.items.map((item) => (
+								{order.orderItems?.map((item) => (
 									<div className="" key={Math.random()}>
-										{item.name} <span className="text-sm text-gray-500">x{item.quantity}</span>
+										{item.dishName} <span className="text-sm text-gray-500">x{item.quantity}</span>
 									</div>
 								))}
 							</div>
 							<div className="text-center">
 								<p
-									className={`order-status rounded-md inline-block px-2 ${order.status} active:scale-90 transition-all`}
+									className={`order-status rounded-md inline-block px-2 ${order.status.toLowerCase()} active:scale-90 transition-all`}
 									onClick={() => handleProcessOrder(order.id)}>
 									process
 								</p>
@@ -144,14 +153,11 @@ const VendorOrders = () => {
 				{type === "processed" &&
 					processedOrders.map((order) => (
 						<div key={Math.random()} className="flex gap-8 justify-between p-4 rounded-lg bg-[#f7f7ff] ">
-							<div className="text-center">
-								<p className="text-blue-300">ID</p>
-								<p className="text-blue-300 font-[500]">{order.id}</p>
-							</div>
+							<img src={`${IMG_SERVER}${order.imageUrl}`} alt="" className="w-12 h-12 rounded-lg" />
 							<div className="item-list">
-								{order.items.map((item) => (
+								{order.orderItems?.map((item) => (
 									<div className="" key={Math.random()}>
-										{item.name} <span className="text-sm text-gray-500">x{item.quantity}</span>
+										{item.dishName} <span className="text-sm text-gray-500">x{item.quantity}</span>
 									</div>
 								))}
 							</div>
@@ -169,4 +175,4 @@ const VendorOrders = () => {
 	)
 }
 
-export default VendorOrders
+export default VendorActiveOrders

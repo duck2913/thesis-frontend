@@ -1,4 +1,5 @@
 import { BsCart4 } from "react-icons/bs"
+import { FaRegRectangleList } from "react-icons/fa6"
 import cover from "../../assets/Cover2.png"
 import { Link } from "react-router-dom"
 import { BsFillTrashFill } from "react-icons/bs"
@@ -18,7 +19,6 @@ const VendorHomePage = () => {
 	async function getData() {
 		const res = await fetch(`${BACKEND_SERVER}`)
 		const data = await res.json()
-		console.log(data)
 		setDishes(data)
 	}
 
@@ -28,13 +28,11 @@ const VendorHomePage = () => {
 		})
 		if (!res.ok) return
 		const data = await res.text()
-		console.log("🚀 -> file: VendorHomePage.jsx:60 -> data:", data)
 		setDishes((curr) => curr.filter((dish) => dish.id !== dishId))
 	}
 
 	function removeItemFromMenu(item) {
 		deleteDish(item.id)
-		console.log(item)
 	}
 
 	return (
@@ -45,11 +43,18 @@ const VendorHomePage = () => {
 						<p className="text-gray-500">Good morning</p>
 						<p className="font-semibold">Staff</p>
 					</div>
-					<Link
-						to={"/vendor/orders"}
-						className="border border-black rounded-full w-10 h-10 flex items-center justify-center text-black relative">
-						<BsCart4 className="text-[1.5rem]" />
-					</Link>
+					<div className="flex gap-4">
+						<Link
+							to={"/vendor/all-orders"}
+							className="border border-black rounded-full w-10 h-10 flex items-center justify-center text-black relative">
+							<FaRegRectangleList className="text-[1.5rem]" />
+						</Link>
+						<Link
+							to={"/vendor/active-orders"}
+							className="border border-black rounded-full w-10 h-10 flex items-center justify-center text-black relative">
+							<BsCart4 className="text-[1.5rem]" />
+						</Link>
+					</div>
 				</div>
 				<img src={cover} alt="" className="rounded-lg mt-4 " />
 

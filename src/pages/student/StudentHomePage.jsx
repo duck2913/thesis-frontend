@@ -26,8 +26,9 @@ const StudentHomePage = () => {
 		setDishes(data)
 	}
 
-	const { addItemToCart, totalItems, totalPrice } = useCartStore(
+	const { cart, addItemToCart, totalItems, totalPrice } = useCartStore(
 		(state) => ({
+			cart: state.cart,
 			addItemToCart: state.addItemToCart,
 			totalItems: state.totalItems,
 			totalPrice: state.totalPrice,

@@ -16,23 +16,21 @@ import "./Cart.scss"
 const Cart = () => {
 	const navigate = useNavigate()
 	const [useDelivery, setUseDelivery] = useState(false)
-	const [paymentType, setPaymentType] = useState("cash")
+	const [paymentType, setPaymentType] = useState("CASH")
 
-	const { cart, totalPrice } = useCartStore(
+	const { cart, totalPrice, resetStore } = useCartStore(
 		(state) => ({
 			cart: state.cart,
 			addItemToCart: state.addItemToCart,
 			totalItems: state.totalItems,
 			totalPrice: state.totalPrice,
+			resetStore: state.resetStore,
 		}),
 		shallow,
 	)
 
 	async function handlePlaceOrder() {
-		console.log(cart)
 		const data = transformDataForApiRequest()
-		console.log("🚀 -> file: Cart.jsx:34 -> data:", data)
-
 		const res = await fetch("http://localhost:8082", {
 			method: "POST",
 			body: JSON.stringify(data),
@@ -45,6 +43,7 @@ const Cart = () => {
 			return
 		}
 		navigate("/student")
+		resetStore()
 	}
 
 	function transformDataForApiRequest() {
@@ -59,6 +58,8 @@ const Cart = () => {
 			orderItems,
 			imageUrl: Object.values(cart)[0].imgUrl,
 			totalPrice,
+			useDelivery,
+			paymentType,
 		}
 	}
 
@@ -117,17 +118,17 @@ const Cart = () => {
 					<p className="font-semibold">Payment method</p>
 					<div
 						className={`payment-type mt-4 ${
-							paymentType === "cash" ? "selected" : ""
+							paymentType === "CASH" ? "selected" : ""
 						} flex items-center gap-4`}
-						onClick={() => setPaymentType("cash")}>
+						onClick={() => setPaymentType("CASH")}>
 						<img src={cash} alt="" className="w-[2rem] -mt-2" />
 						Pay by cash
 					</div>
 					<div
 						className={`payment-type mt-4 ${
-							paymentType === "momo" ? "selected" : ""
+							paymentType === "MOMO" ? "selected" : ""
 						} flex items-center gap-4`}
-						onClick={() => setPaymentType("momo")}>
+						onClick={() => setPaymentType("MOMO")}>
 						<img src={momo} alt="" className="w-[1.5rem]" />
 						Pay by Momo
 					</div>
