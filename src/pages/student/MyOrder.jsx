@@ -1,10 +1,11 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Navbar from "../../components/Navbar"
 import orderImg from "../../assets/order.png"
 
 import "./MyOrder.scss"
+const IMG_SERVER = "http://localhost:8081/"
 
-const orders = [
+const defaultOrders = [
 	{
 		items: [
 			{
@@ -72,6 +73,18 @@ const orders = [
 ]
 
 const MyOrder = () => {
+	const [orders, setOrders] = useState(defaultOrders)
+
+	useEffect(() => {
+		getOrders()
+	}, [])
+
+	async function getOrders() {
+		const res = await fetch("http://localhost:8082/2")
+		const data = await res.json()
+		setOrders(data)
+	}
+
 	return (
 		<>
 			<div className="page">
@@ -80,24 +93,26 @@ const MyOrder = () => {
 					{orders.map((order) => (
 						<div key={Math.random()} className="p-2 py-4 rounded-lg border-b">
 							<div className="flex gap-8 ">
-								<img src={orderImg} alt="" className="w-12 h-12" />
+								<img src={`${IMG_SERVER}${order.imageUrl}`} alt="" className="w-12 h-12" />
 								<div className="item-list">
-									{order.items.map((item) => (
+									{order?.orderItems?.map((item) => (
 										<div className="" key={Math.random()}>
-											{item.name} <span className="text-sm text-gray-500">x{item.quantity}</span>
+											{item.dishName}{" "}
+											<span className="text-sm text-gray-500">x{item.quantity}</span>
 										</div>
 									))}
 								</div>
 								<div className="w-[100px] text-center ml-auto">
 									<p className="text-xs mb-1">Status</p>
-									<p className={`order-status rounded-md inline-block px-2 ${order.status}`}>
-										{order.status}
+									<p
+										className={`order-status rounded-md inline-block px-2 ${order.status.toLowerCase()}`}>
+										{order.status.toLowerCase()}
 									</p>
 								</div>
 							</div>
 							<div className="mt-2 text-sm text-right text-gray-500">
 								Total price:{" "}
-								<span className="font-[500] text-base ml-2 text-black">{order.totalPrice}₫</span>
+								<span className="font-[500] text-base ml-2 text-black">{order.totalPrice},000₫</span>
 							</div>
 						</div>
 					))}
