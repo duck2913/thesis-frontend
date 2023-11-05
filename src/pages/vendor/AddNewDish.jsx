@@ -3,6 +3,8 @@ import { BiArrowBack } from "react-icons/bi"
 import { useNavigate } from "react-router-dom"
 import { toast, ToastContainer } from "react-toastify"
 
+const VITE_APP_MENU_SERVICE = import.meta.env.VITE_APP_MENU_SERVICE
+
 const AddNewDish = () => {
 	const navigate = useNavigate()
 	const nameRef = useRef(null)
@@ -27,7 +29,7 @@ const AddNewDish = () => {
 		formData.append("category", category)
 		formData.append("image", selectedImg)
 
-		const res = await fetch("http://localhost:8081", {
+		const res = await fetch(VITE_APP_MENU_SERVICE, {
 			method: "POST",
 			body: formData,
 		})

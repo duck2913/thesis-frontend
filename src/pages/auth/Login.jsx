@@ -8,6 +8,7 @@ import { useState } from "react"
 import jwt_decode from "jwt-decode"
 
 const SECRET_KEY = "c2bce70976fbc8cd488d84a89eba1de4b8e4255b8de7aed4485517f379de8f66"
+const VITE_APP_AUTH_SERVICE = import.meta.env.VITE_APP_AUTH_SERVICE
 
 const Login = () => {
 	const [username, setUsername] = useState("")
@@ -17,7 +18,7 @@ const Login = () => {
 	async function handleLogin(e) {
 		e.preventDefault()
 
-		const res = await fetch("http://localhost:8080/api/v1/auth/login", {
+		const res = await fetch(`${VITE_APP_AUTH_SERVICE}/login`, {
 			method: "POST",
 			body: JSON.stringify({ username, password }),
 			headers: {

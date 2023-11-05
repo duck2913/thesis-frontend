@@ -9,7 +9,7 @@ import { Link } from "react-router-dom"
 import { useNotificationStore } from "../../stores/notificationStore.js"
 import { useEffect, useState } from "react"
 
-const IMG_SERVER = "http://localhost:8081/"
+const VITE_APP_MENU_SERVICE = import.meta.env.VITE_APP_MENU_SERVICE
 
 const StudentHomePage = () => {
 	const [dishes, setDishes] = useState([])
@@ -21,7 +21,7 @@ const StudentHomePage = () => {
 	}, [])
 
 	async function getData() {
-		const res = await fetch("http://localhost:8081")
+		const res = await fetch(`${VITE_APP_MENU_SERVICE}`)
 		const data = await res.json()
 		setDishes(data)
 	}
@@ -74,7 +74,7 @@ const StudentHomePage = () => {
 						{foods.map((food) => (
 							<div className="food relative" key={food.imgUrl}>
 								<img
-									src={`${IMG_SERVER}${food.imgUrl}`}
+									src={`${VITE_APP_MENU_SERVICE}/${food.imgUrl}`}
 									alt=""
 									className="w-[10rem] h-[12rem] object-cover rounded-lg"
 								/>
@@ -96,7 +96,7 @@ const StudentHomePage = () => {
 						{drinks.map((drink) => (
 							<div className="drink relative" key={drink.imgUrl}>
 								<img
-									src={`${IMG_SERVER}${drink.imgUrl}`}
+									src={`${VITE_APP_MENU_SERVICE}/${drink.imgUrl}`}
 									alt=""
 									className="w-[10rem] h-[12rem] object-cover rounded-lg"
 								/>

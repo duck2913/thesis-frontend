@@ -4,6 +4,8 @@ import circles from "../../assets/register-circles.svg"
 import { Link, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 
+const VITE_APP_AUTH_SERVICE = import.meta.env.VITE_APP_AUTH_SERVICE
+
 const Register = () => {
 	const [username, setUsername] = useState("")
 	const [password, setPassword] = useState("")
@@ -12,7 +14,7 @@ const Register = () => {
 	async function handleRegister(e) {
 		e.preventDefault()
 
-		const res = await fetch("http://localhost:8080/api/v1/auth/register", {
+		const res = await fetch(`${VITE_APP_AUTH_SERVICE}/register`, {
 			method: "POST",
 			body: JSON.stringify({ username, password }),
 			headers: {

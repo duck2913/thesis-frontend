@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
 import Navbar from "../../components/Navbar"
 import orderImg from "../../assets/order.png"
-
 import "./MyOrder.scss"
-const IMG_SERVER = "http://localhost:8081/"
 
+const IMG_SERVER = import.meta.env.VITE_APP_MENU_SERVICE
+const VITE_APP_ORDER_SERVICE = import.meta.env.VITE_APP_ORDER_SERVICE
 const defaultOrders = [
 	{
 		items: [
@@ -80,7 +80,7 @@ const MyOrder = () => {
 	}, [])
 
 	async function getOrders() {
-		const res = await fetch("http://localhost:8082/2")
+		const res = await fetch(`${VITE_APP_ORDER_SERVICE}/2`)
 		const data = await res.json()
 		setOrders(data)
 	}

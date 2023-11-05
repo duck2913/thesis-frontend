@@ -3,17 +3,17 @@ import { BiArrowBack } from "react-icons/bi"
 import { useNavigate } from "react-router-dom"
 import "./VendorOrders.scss"
 
-const IMG_SERVER = "http://localhost:8081/"
+const VITE_APP_MENU_SERVICE = import.meta.env.VITE_APP_MENU_SERVICE
+const VITE_APP_ORDER_SERVICE = import.meta.env.VITE_APP_ORDER_SERVICE
 
 const VendorAllOrders = () => {
 	const navigate = useNavigate()
 	const [orders, setOrders] = useState([])
 
 	useEffect(() => {
-		fetch("http://localhost:8082")
+		fetch(VITE_APP_ORDER_SERVICE)
 			.then((res) => res.json())
 			.then((data) => {
-				console.log(data)
 				setOrders(data)
 			})
 			.catch((error) => console.error(error))
@@ -29,7 +29,11 @@ const VendorAllOrders = () => {
 			<div className="mt-[3rem] flex flex-col w-[90%] gap-4 mx-auto">
 				{orders.map((order) => (
 					<div key={Math.random()} className="flex gap-8 bg-[#fff9f7] p-4 rounded-lg">
-						<img src={`${IMG_SERVER}${order.imageUrl}`} alt="" className="w-12 h-12 rounded-lg" />
+						<img
+							src={`${VITE_APP_MENU_SERVICE}/${order.imageUrl}`}
+							alt=""
+							className="w-12 h-12 rounded-lg"
+						/>
 						<div className="item-list">
 							{order?.orderItems?.map((item) => (
 								<div className="" key={Math.random()}>

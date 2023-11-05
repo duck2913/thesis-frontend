@@ -12,6 +12,7 @@ import momo from "../../assets/momo.png"
 
 import CartItem from "../../components/Cart/CartItem"
 import "./Cart.scss"
+const VITE_APP_ORDER_SERVICE = import.meta.env.VITE_APP_ORDER_SERVICE
 
 const Cart = () => {
 	const navigate = useNavigate()
@@ -31,7 +32,7 @@ const Cart = () => {
 
 	async function handlePlaceOrder() {
 		const data = transformDataForApiRequest()
-		const res = await fetch("http://localhost:8082", {
+		const res = await fetch(VITE_APP_ORDER_SERVICE, {
 			method: "POST",
 			body: JSON.stringify(data),
 			headers: {

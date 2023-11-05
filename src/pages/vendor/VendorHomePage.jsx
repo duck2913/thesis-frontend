@@ -5,25 +5,39 @@ import { Link } from "react-router-dom"
 import { BsFillTrashFill } from "react-icons/bs"
 import { useEffect, useState } from "react"
 
-const BACKEND_SERVER = "http://localhost:8081/"
+const VITE_APP_MENU_SERVICE = import.meta.env.VITE_APP_MENU_SERVICE
+const VITE_APP_ORDER_SERVICE = import.meta.env.VITE_APP_ORDER_SERVICE
+const IMG_SERVER = VITE_APP_MENU_SERVICE
 
 const VendorHomePage = () => {
 	const [dishes, setDishes] = useState([])
+	const [numActiveOrders, setNumActiveOrders] = useState(0)
+
 	const foods = dishes.filter((dish) => dish.category == "FOOD")
 	const drinks = dishes.filter((dish) => dish.category == "DRINK")
 
 	useEffect(() => {
-		getData()
+		getAllDishes()
+		getNumActiveOrders()
 	}, [])
 
-	async function getData() {
-		const res = await fetch(`${BACKEND_SERVER}`)
+	function getNumActiveOrders() {
+		fetch(`${VITE_APP_ORDER_SERVICE}/active`)
+			.then((res) => res.json())
+			.then((data) => {
+				setNumActiveOrders(data.length)
+			})
+			.catch((error) => console.error(error))
+	}
+
+	async function getAllDishes() {
+		const res = await fetch(`${VITE_APP_MENU_SERVICE}`)
 		const data = await res.json()
 		setDishes(data)
 	}
 
 	async function deleteDish(dishId) {
-		const res = await fetch(`${BACKEND_SERVER}delete/${dishId}`, {
+		const res = await fetch(`${VITE_APP_MENU_SERVICE}/delete/${dishId}`, {
 			method: "DELETE",
 		})
 		if (!res.ok) return
@@ -53,6 +67,14 @@ const VendorHomePage = () => {
 							to={"/vendor/active-orders"}
 							className="border border-black rounded-full w-10 h-10 flex items-center justify-center text-black relative">
 							<BsCart4 className="text-[1.5rem]" />
+							{numActiveOrders > 0 && (
+								<div
+									className={
+										"badge absolute top-[-0.5rem] right-[-0.5rem] w-[1rem] h-[1rem] flex items-center justify-center p-3 rounded-full text-white bg-red-400"
+									}>
+									{numActiveOrders}
+								</div>
+							)}
 						</Link>
 					</div>
 				</div>
@@ -68,7 +90,7 @@ const VendorHomePage = () => {
 						{foods.map((food) => (
 							<div className="food relative" key={food.imgUrl}>
 								<img
-									src={`${BACKEND_SERVER}${food.imgUrl}`}
+									src={`${VITE_APP_MENU_SERVICE}/${food.imgUrl}`}
 									alt=""
 									className="w-[10rem] h-[12rem] object-cover rounded-lg"
 								/>
@@ -90,7 +112,7 @@ const VendorHomePage = () => {
 						{drinks.map((drink) => (
 							<div className="drink relative" key={drink.imgUrl}>
 								<img
-									src={`${BACKEND_SERVER}${drink.imgUrl}`}
+									src={`${VITE_APP_MENU_SERVICE}/${drink.imgUrl}`}
 									alt=""
 									className="w-[10rem] h-[12rem] object-cover rounded-lg"
 								/>

@@ -1,7 +1,7 @@
 import React from "react"
 import { useCartStore } from "../../stores/cartStore"
 
-const IMG_SERVER = "http://localhost:8081/"
+const IMG_SERVER = import.meta.env.VITE_APP_MENU_SERVICE
 
 const CartItem = ({ item }) => {
 	const { cart, addItemToCart, removeItemFromCart } = useCartStore((store) => ({
