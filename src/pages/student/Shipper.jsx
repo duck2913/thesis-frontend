@@ -1,87 +1,23 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Navbar from "../../components/Navbar"
 import orderImg from "../../assets/order.png"
 import { FaLocationDot } from "react-icons/fa6"
 import { BsFillTelephoneFill } from "react-icons/bs"
 
-const orders = [
-	{
-		items: [
-			{
-				name: "bún bò",
-				quantity: 1,
-			},
-			{
-				name: "trà đá",
-				quantity: 1,
-			},
-		],
-		status: "new",
-		totalPrice: 10000,
-		phone: "0372699635",
-		address: "Room 304",
-	},
-	{
-		items: [
-			{
-				name: "bún bò",
-				quantity: 1,
-			},
-			{
-				name: "trà đá",
-				quantity: 1,
-			},
-		],
-		status: "cooking",
-		totalPrice: 10000,
-		phone: "0372699635",
-		address: "Room 304",
-	},
-	{
-		items: [
-			{
-				name: "bún bò",
-				quantity: 1,
-			},
-			{
-				name: "trà đá",
-				quantity: 1,
-			},
-		],
-		status: "delivery",
-		totalPrice: 10000,
-		phone: "0372699635",
-		address: "Room 304",
-	},
-	{
-		items: [
-			{
-				name: "bún bò",
-				quantity: 1,
-			},
-			{
-				name: "trà đá",
-				quantity: 1,
-			},
-			{
-				name: "trà đá",
-				quantity: 1,
-			},
-			{
-				name: "trà đá",
-				quantity: 1,
-			},
-		],
-		status: "done",
-		totalPrice: 10000,
-		phone: "0372699635",
-		address: "Room 304",
-	},
-]
+const VITE_APP_ORDER_SERVICE = import.meta.env.VITE_APP_ORDER_SERVICE
 
 const Shipper = () => {
 	const [type, setType] = useState("all")
+	const [orders, setOrders] = useState([])
 
+	useEffect(() => {
+		fetch(`${VITE_APP_ORDER_SERVICE}/delivery`)
+			.then((res) => res.json())
+			.then((data) => {
+				setOrders(data)
+			})
+			.catch((error) => console.error(error))
+	}, [])
 	function handleSelectType(s) {
 		setType(s)
 	}
@@ -116,9 +52,10 @@ const Shipper = () => {
 									</button>
 								</div>
 								<div className="item-list">
-									{order.items.map((item) => (
+									{order.orderItems?.map((item) => (
 										<div className="" key={Math.random()}>
-											{item.name} <span className="text-sm text-gray-500">x{item.quantity}</span>
+											{item.dishName}{" "}
+											<span className="text-sm text-gray-500">x{item.quantity}</span>
 										</div>
 									))}
 								</div>
@@ -135,7 +72,7 @@ const Shipper = () => {
 							</div>
 							<div className="mt-2 text-sm text-right text-gray-500">
 								Total price:{" "}
-								<span className="font-[500] text-base ml-2 text-black">{order.totalPrice}₫</span>
+								<span className="font-[500] text-base ml-2 text-black">{order.totalPrice},000₫</span>
 							</div>
 						</div>
 					))}
