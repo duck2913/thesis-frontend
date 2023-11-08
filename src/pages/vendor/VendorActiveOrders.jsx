@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { BiArrowBack } from "react-icons/bi"
+import { BiArrowBack, BiSolidUser } from "react-icons/bi"
 import { FaTrashAlt } from "react-icons/fa"
 import { MdDeliveryDining } from "react-icons/md"
 import { useNavigate } from "react-router-dom"
@@ -69,7 +69,7 @@ const VendorActiveOrders = () => {
 			<div className="mt-[3rem] flex flex-col gap-8 mx-auto">
 				{type === "new" &&
 					unprocessedOrders.map((order) => (
-						<div className="bg-[#fff4f0] p-4 rounded-lg">
+						<div className="bg-[#fff4f0] p-4 rounded-lg shadow-sm">
 							<div key={Math.random()} className="flex gap-8 justify-between ">
 								<img src={`${IMG_SERVER}/${order.imageUrl}`} alt="" className="w-12 h-12 rounded-lg" />
 								<div className="item-list">
@@ -94,6 +94,10 @@ const VendorActiveOrders = () => {
 									This order use delivery service
 								</div>
 							)}
+							<div className="flex gap-2 text-sm mt-2 text-orange-500 items-center">
+								<BiSolidUser />
+								{order.userName}
+							</div>
 							<div className="mt-2 text-orange-500 text-right">
 								ID: <span className="font-semibold">{order.id.slice(0, 6)}</span>
 							</div>
@@ -101,8 +105,8 @@ const VendorActiveOrders = () => {
 					))}
 				{type === "ongoing" &&
 					processingOrders?.map((order) => (
-						<div className="p-4 rounded-lg bg-[#f7f7ff] w-full">
-							<div key={Math.random()} className="flex gap-8 justify-between ">
+						<div className="p-4 rounded-lg bg-[#f7f7ff] w-full shadow-sm">
+							<div key={Math.random()} className="flex gap-8 justify-between">
 								<img src={`${IMG_SERVER}/${order.imageUrl}`} alt="" className="w-12 h-12 rounded-lg" />
 								<div className="item-list">
 									{order.orderItems?.map((item) => (
@@ -139,6 +143,10 @@ const VendorActiveOrders = () => {
 									This order use delivery service
 								</div>
 							)}
+							<div className="flex gap-2 text-sm mt-2 text-blue-500 items-center">
+								<BiSolidUser />
+								{order.userName}
+							</div>
 							<div className="mt-2 text-blue-500 flex justify-between">
 								<div>ID: {order.id.slice(0, 6)}</div>
 								<div className="text-right  font-[600]">Total price: {order.totalPrice},000d</div>

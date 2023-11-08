@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import Navbar from "../../components/Navbar"
 import orderImg from "../../assets/order.png"
 import "./MyOrder.scss"
+import { MdDeliveryDining } from "react-icons/md"
 
 const IMG_SERVER = import.meta.env.VITE_APP_MENU_SERVICE
 const VITE_APP_ORDER_SERVICE = import.meta.env.VITE_APP_ORDER_SERVICE
@@ -82,9 +83,23 @@ const MyOrder = () => {
 	async function getOrders() {
 		const userInfo = JSON.parse(localStorage.getItem("user_info"))
 		const userId = userInfo.id
-		const res = await fetch(`${VITE_APP_ORDER_SERVICE}/${userId}`)
+		if (!userId) return
+		const res = await fetch(`${VITE_APP_ORDER_SERVICE}/orders/users/${userId}`)
 		const data = await res.json()
 		setOrders(data)
+	}
+
+	async function handleAcceptOrder(orderId) {
+		const selectedOrder = orders.find((order) => order.id === orderId)
+		selectedOrder.status = "DONE"
+		await updateOrderStatus(orderId)
+		setOrders((orders) => orders.filter((order) => order.id !== orderId))
+	}
+
+	async function updateOrderStatus(orderId) {
+		const res = await fetch(`${VITE_APP_ORDER_SERVICE}/${orderId}`, {
+			method: "PUT",
+		})
 	}
 
 	return (
@@ -92,7 +107,8 @@ const MyOrder = () => {
 			<div className="page">
 				<h2 className="text-center text-lg">Your orders</h2>
 				<div className="mt-[3rem] flex flex-col gap-0">
-					{orders.map((order) => (
+					{orders.length === 0 && <div className="text-center text-gray-500">You don't have any orders</div>}
+					{orders?.map((order) => (
 						<div key={Math.random()} className="p-2 py-4 rounded-lg border-b">
 							<div className="flex gap-8 ">
 								<img src={`${IMG_SERVER}/${order.imageUrl}`} alt="" className="w-12 h-12 rounded-lg" />
@@ -112,10 +128,23 @@ const MyOrder = () => {
 									</p>
 								</div>
 							</div>
+							{order.useDelivery && (
+								<div className="flex gap-2 text-sm mt-2 text-teal-400 items-center">
+									<MdDeliveryDining />
+									This order use delivery service
+								</div>
+							)}
 							<div className="mt-2 text-sm text-right text-gray-500">
 								Total price:{" "}
 								<span className="font-[500] text-base ml-2 text-black">{order.totalPrice},000₫</span>
 							</div>
+							{order.useDelivery && (
+								<button
+									className="bg-green-100 text-green-500 rounded-full px-2 py-[2px] text-right block ml-auto mt-2"
+									onClick={() => handleAcceptOrder(order.id)}>
+									Receive
+								</button>
+							)}
 						</div>
 					))}
 				</div>
