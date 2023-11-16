@@ -49,7 +49,7 @@ const StudentHomePage = () => {
 				<div className="header flex justify-between">
 					<div className="header--text">
 						<p className="text-gray-500">Good morning</p>
-						<p className="font-semibold">Minh Duc</p>
+						<p className="font-semibold">{JSON.parse(localStorage.getItem("user_info"))?.username}</p>
 					</div>
 					<Link
 						to={"/student/notification"}

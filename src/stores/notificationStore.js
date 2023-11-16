@@ -2,13 +2,7 @@ import { create } from "zustand"
 
 export const useNotificationStore = create((set) => ({
 	numActiveOrders: 0,
-	notificationList: [
-		{ message: "Your order has been received", id: 1 },
-		{
-			message: "Your order is being delivered",
-			id: 2,
-		},
-	],
+	notificationList: [],
 
 	setNumActiveOrders: (n) =>
 		set(() => ({

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { BiArrowBack } from "react-icons/bi"
 import { BsFillTrash3Fill } from "react-icons/bs"
 import { useNavigate } from "react-router-dom"
@@ -7,7 +7,8 @@ import { shallow } from "zustand/shallow"
 
 const Notification = () => {
 	const navigate = useNavigate()
-	const { notifications, removeNotification } = useNotificationStore(
+
+	const { notifications, removeNotification, addNotification } = useNotificationStore(
 		(store) => ({
 			addNotification: store.addNotification,
 			notifications: store.notificationList,

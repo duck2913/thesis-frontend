@@ -6,7 +6,7 @@ import { BsFillTelephoneFill } from "react-icons/bs"
 import { BiSolidUser } from "react-icons/bi"
 
 const VITE_APP_ORDER_SERVICE = import.meta.env.VITE_APP_ORDER_SERVICE
-const userId = JSON.parse(localStorage.getItem("user_info")).id
+const userId = JSON.parse(localStorage.getItem("user_info"))?.id
 
 const Shipper = () => {
 	const [type, setType] = useState("all")

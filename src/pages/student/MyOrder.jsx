@@ -138,7 +138,7 @@ const MyOrder = () => {
 								Total price:{" "}
 								<span className="font-[500] text-base ml-2 text-black">{order.totalPrice},000₫</span>
 							</div>
-							{order.useDelivery && (
+							{order.status === "DONE" && (
 								<button
 									className="bg-green-100 text-green-500 rounded-full px-2 py-[2px] text-right block ml-auto mt-2"
 									onClick={() => handleAcceptOrder(order.id)}>
